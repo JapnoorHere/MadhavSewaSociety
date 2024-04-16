@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login SignUp</title>
+    <link rel="stylesheet" href="success.css">
+</head>
+<body>
+    <main>
+        <div class="card">
+            <div class="container">
+                <div class="img-container">
+                  <img src="images/tick.png" alt="">
+                </div>                
+                <h1>Thank You!</h1>
+                <p style = "color : #ffa85a;"> <%= message%> <br>You will auto redirected within 3 seconds </p>
+                <a href="/">Proceed to Home Page</a>
+            </div>
+        </div>
+    </main>    
+
+    <script>
+        setTimeout(function(){
+            window.location.href = "/";
+        }, 3000);
+    </script>
+</body>
+</html>
