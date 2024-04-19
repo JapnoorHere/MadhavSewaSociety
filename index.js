@@ -1,18 +1,25 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const path = require('path');
 const mongoose = require('mongoose');
-
+const session = require('express-session');
 
 //*middlewares
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
-app.use(require('./routes/routes'));
 app.use(express.static('views'))
 
+app.use(session({
+  secret : "this_is_secret_key",
+  resave : false,
+  saveUninitialized : false,
+  maxAge : 30 * 24 * 60 * 60 * 1000
+}));
+
+app.use(express.json());
+app.use(require('./routes/routes'));
 
 
 //*db connection
