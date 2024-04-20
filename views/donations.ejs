@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="donations.css">
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="icon" href="images/mss-logo.png">
+  <link rel="icon" href="images/mss-logo.png">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 </head>
 
@@ -108,46 +109,18 @@
           </div>
           <div class="single-donations-card">
             <h1>Rs 5000</h1>
-            <p>Grants a scholarship to support a child's education expenses, including tuition fees and additional learning resources.</p>
+            <p>Grants a scholarship to support a child's education expenses, including tuition fees and additional
+              learning resources.</p>
           </div>
           <div class="single-donations-card">
             <h1>Rs 10000</h1>
-            <p>Contributes to community projects such as building libraries, playgrounds, or computer labs for children's holistic development.
+            <p>Contributes to community projects such as building libraries, playgrounds, or computer labs for
+              children's holistic development.
 
             </p>
           </div>
 
         </div>
-        <div class="bottom-content">
-          <h3>Select an Amount<span>*</span></h3>
-          <div class="pay-circle-cards">
-            <div class="pay-card">
-              Rs 50
-            </div>
-            <div class="pay-card">
-              Rs 100
-            </div>
-            <div class="pay-card">
-              Rs 500
-            </div>
-            <div class="pay-card">
-              Rs 1000
-            </div>
-            <div class="pay-card">
-              Rs 5000
-            </div>
-            <div class="pay-card">
-              Rs 10000
-            </div>
-          </div>
-        </div>
-        <form action="" method="post">
-          <input type="text" placeholder="Name">
-          <input type="email" placeholder="Email">
-          <input type="tel" placeholder="Phone Number">
-          <button type="submit">Next</button>
-        </form>
-      </div>
 
     </section>
     <script>
@@ -173,73 +146,31 @@
       <div class="programme-donations-container">
         <div class="programme-donations-content">
           <ul class="accordion">
-            <li>
-              <input type="radio" name="accordion" id="first">
-              <label class="heading-container" for="first">
-                Education Fund
-                <button>Donate Now</button>
-              </label>
-              <div class="accordion-content">
-                <div class="img-container">
-                  <img src="images/child-education-fund.jpg" alt="">
+            <% for(let i=0;i<donations.length;i++){ %>
+              <li>
+                <input type="radio" name="accordion" id="first">
+                <label class="heading-container" for="first">
+                  <%=donations[i].donation_name %>
+                    <form class="pay-form">
+                      <input type="hidden" name="donation_name" value="<%=donations[i].donation_name %>">
+                      <input type="hidden" name="donation_fund" value="<%=donations[i].donation_fund %>">
+                      <input type="hidden" name="donation_description" value="<%=donations[i].donation_description %>">
+                      <!-- <input type="hidden" name="userId" value="//<%= //userId %>"> -->
+                      <button type="submit">Donate Now</button>
+                    </form>
+                </label>
+                <div class="accordion-content">
+                  <div class="img-container">
+                    <img src="<%=donations[i].donation_image_url %>" alt="">
+                  </div>
+                  <p>
+                    <%=donations[i].donation_description %>
+                  </p>
                 </div>
-                <p>Every child deserves the gift of education, a key to unlocking endless possibilities. With your
-                  generous donations, we can brighten the futures of countless young minds. Together, we can build
-                  bridges to knowledge, ensuring that no child is left behind. Your contribution to our education
-                  donation fund will pave the way for brighter tomorrows. Let's join hands to empower the next
-                  generation through the power of learning. Every dollar you give is an investment in a child's future
-                  success and happiness. Join us on this journey of transforming lives, one donation at a time!</p>
-              </div>
-            </li>
+              </li>
+              <% } %>
 
-            <li>
-              <input type="radio" name="accordion" id="second">
-              <label class="heading-container" for="second">
-                Women Empowerment
-                <button>Donate Now</button>
-              </label>
-              <div class="accordion-content">
-                <div class="img-container">
-                  <img src="images/women-empowerment.jpg" alt="">
-                </div>
-                <p>In the realm of cloth making, women are not just artisans; they are architects of their own
-                  destinies. Your support for women in this industry is not merely a stitch in time; it's a
-                  transformative force. By empowering women in cloth making, we're weaving a tapestry of economic
-                  independence and creative expression. Through training, resources, and fair wages, we enable women to
-                  thrive as skilled artisans and entrepreneurs. Your contribution to our women empowerment in cloth
-                  making initiative fuels a movement of empowerment and equality. Let's sew together a future where
-                  every woman's talent is recognized and celebrated. Join us in dressing the world with dignity, one
-                  thread at a time.</p>
-              </div>
-            </li>
 
-            <li>
-              <input type="radio" name="accordion" id="third">
-              <label class="heading-container" for="third">
-                Disability Support Fund
-                <button>Donate Now</button>
-              </label>
-              <div class="accordion-content">
-                <div class="img-container">
-                  <img src="images/disable-support-fund.jpg" alt="">
-                </div>
-                <p>Our Disability Support Fund is a beacon of hope for those who face unique challenges in their daily lives. Your contribution to this fund is a lifeline for individuals with disabilities, offering them the support and resources they need to thrive. Together, we can break down barriers and create a more inclusive society where everyone has the opportunity to reach their full potential. Your generosity fuels programs and services that empower individuals with disabilities to live independently and participate fully in their communities. Let's stand hand in hand, ensuring that no one is left behind due to a disability. Your donation to our Disability Support Fund is not just a gift; it's a powerful statement of compassion and solidarity. Join us in building a world where everyone is valued and supported, regardless of ability.</p>
-              </div>
-            </li>
-
-            <li>
-              <input type="radio" name="accordion" id="fourth">
-              <label class="heading-container" for="fourth">
-                Animal Welfare
-                <button>Donate Now</button>
-              </label>
-              <div class="accordion-content">
-                <div class="img-container">
-                  <img src="images/animal-empowerment.jpg" alt="">
-                </div>
-                <p>Animal welfare is a cause close to our hearts, and your support makes a world of difference for our furry, feathered, and finned friends. With your donations, we provide shelter, care, and love to animals in need, ensuring they live lives filled with compassion and dignity. Together, we advocate for stronger laws and policies to protect animals from cruelty and exploitation. Your contribution to our animal welfare fund enables us to rescue, rehabilitate, and rehome countless animals, giving them a second chance at happiness. Let's work hand in paw to create a future where every animal is treated with kindness and respect. Your generosity is the voice for those who cannot speak for themselves. Join us in building a world where animals are cherished members of our global family.</p>
-              </div>
-            </li>
 
           </ul>
         </div>
@@ -287,3 +218,81 @@
 </body>
 
 </html>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+  $(document).ready(function () {
+    $('.pay-form').submit(function (e) {
+      e.preventDefault();
+
+      var formData = $(this).serialize();
+
+      $.ajax({
+        url: "/donations/pay",
+        type: "POST",
+        data: formData,
+        success: function (res) {
+          if (res.success) {
+            var options = {
+              "key": "" + res.key_id + "",
+              "donation_name": "" + res.donation_name + "",
+              "donation_fund": "" + res.donation_fund + "",
+              "userId": "<%= user._id %>",
+              "currency": "INR",
+              "donation_description": "" + res.donation_description + "",
+              "image": res.image,
+              "order_id": "" + res.order_id + "",
+              "handler": function (response) {
+                alert("Payment Succeeded");
+                var data = {
+                  paymentId: response.razorpay_payment_id,
+                  amount : response.razorpay_amount,
+                  donation_name: res.donation_name,
+                  userId : "<%= user._id %>"
+                };
+
+                fetch('/save-pay-donations', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(data),
+                })
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log('Success:', data);
+                  })
+                  .catch((error) => {
+                    console.error('Error:', error);
+                  });
+                // window.open("/","_self")
+              },
+              "prefill": {
+                "contact": "<%= user.phone %>",
+                "name": "<%= user.name %>",
+                "email": "<%= user.email %>"
+              },
+              "notes": {
+                "donation_description": "" + res.donation_description + ""
+              },
+              "theme": {
+                "color": "#ffa85a"
+              }
+            };
+            var razorpayObject = new Razorpay(options);
+            razorpayObject.on('payment.failed', function (response) {
+              alert("Payment Failed");
+            });
+            razorpayObject.open();
+          }
+          else {
+            alert(res.msg);
+          }
+        }
+      })
+
+    });
+  });
+
+</script>

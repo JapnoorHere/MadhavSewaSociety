@@ -1,8 +1,13 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const User = require('../model/users');
 const Volunteer = require('../model/volunteer');
 const DailyMotivation = require('../model/dailyMotivation');
+const Donations = require('../model/donations');
+const paymentController = require('../controllers/paymentController');
+const users = require('../model/users');
+
 
 router.get('/', (req, res) => {
     res.render('index');
@@ -138,7 +143,7 @@ router.get("/dailyMotivation", (req, res) => {
                 for (let i = 0; i < videos.length; i++) {
                     colors.push(getRandomColor());
                 }
-                res.render('motivation', { todayVideo: todayVideo,videos : videos,colors:colors });
+                res.render('motivation', { todayVideo: todayVideo,videos : videos.reverse(),colors:colors });
                 
             });
         });
@@ -149,11 +154,40 @@ router.get("/dailyMotivation", (req, res) => {
     }
 })
 
+router.post('/donations/pay', paymentController.payDonations);
+
+router.post('/save-pay-donations',async(req,res)=>{
+    const {paymentId, donation_name,amount,userId } = req.body;
+    try {
+        const donation = await Donations.findOne(donation_name);
+
+        if (!donation) {
+            return res.status(404).json({ message: 'Donation or User not found' });
+        }
+        donation.users.push(userId);
+
+        await donation.save();
+
+        res.redirect('/donations');
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+    
+    
+})
 
 router.get("/donations", (req, res) => {
 
     if (req.session.userId) {
-        res.render('donations');
+        Donations.find().then((donations) => {
+            User.findById(req.session.userId).then((user) => {
+                res.render('donations', { donations: donations, user : user });
+            });
+        }).catch((err) => {
+            res.json({ error: err });
+        })
     }
     else {
         res.redirect('/login');
