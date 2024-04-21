@@ -177,59 +177,81 @@
         <div class="mudras-content">
           <h1>Mudras</h1>
           <div class="mudras-card-content">
-            <% for(let i=0;i<mudras.length;i++){ %>
-            <div class="mudra-card" id="mudra-card-<%=mudras[i].name  %>"<%=mudras[i].name  %> onclick="openDialog('<%=mudras[i].name  %>','<%=mudras[i].name  %>')">
+            <div class="mudra-card" id="mudra-card-1" onclick="openDialog(1,1)">
               <div class="img-container">
-                <img src="<%=mudras[i].img_url  %>" alt="">
+                <img src="images/akash-mudra.png" alt="">
               </div>
-              <h3><%= mudras[i].name %></h3>
-              <p><%= mudras[i].description %></p>
+              <h3>Akash Mudra</h3>
+              <p>Akash Mudra also known as the "Space Mudra" or "Aakash Mudra," is a hand gesture or mudra used in yoga
+                and
+                meditation practices.</p>
 
             </div>
-
-            <div class="dialog" id="dialog-<%=mudras[i].name  %>">
+            <div class="dialog" id="dialog-1">
               <div class="dialog-content">
-                <span class="close" id="close-<%=mudras[i].name  %>" onclick="closeDialog('<%=mudras[i].name  %>')">&times;</span>
-                <h1><%=mudras[i].name  %></h1>
-                <p><%=mudras[i].description %></p>
-                <h4>To perform <%=mudras[i].name  %>:</h4>
+                <span class="close" id="close-1" onclick="closeDialog(1)">&times;</span>
+                <h1>Akash Mudra</h1>
+                <p>Akash Mudra
+                  also known as the "Space Mudra" or "Aakash Mudra," is a hand gesture or mudra used in yoga and
+                  meditation practices. It is believed to help balance the element of space (akash) within the body and
+                  promote a sense of calmness, openness, and expansiveness.
+                </p>
+                <h4>To perform Akash Mudra:</h4>
                 <ul>
-                  <%=mudras[i].perform  %>
+                  <li>Start by sitting in a comfortable meditation posture, such as cross-legged on the floor or in a
+                    chair with your spine straight.</li>
+                  <li>Relax your hands on your knees or thighs.</li>
+                  <li>Bring your arms in front of your chest, keeping your elbows bent and close to your body.</li>
+                  <li>Join the tips of your middle finger and thumb, creating a circle or ring shape. The other fingers
+                    should be extended and pointing upward.</li>
+                  <li>Keep your wrists relaxed and your hands comfortably resting in front of your chest.</li>
+                  <li>Take slow, deep breaths and allow yourself to feel a sense of spaciousness and openness.
+                  </li>
+                  <li>Hold the mudra for several minutes or as long as feels comfortable and beneficial.</li>
                 </ul>
                 <h4>Benefits : </h4>
-                <p><%=mudras[i].benefits %></p>
+                <p>Expands consciousness, improves intuition, enhances mental clarity.</p>
                 <h4>Release:</h4>
                 <ul>
-                  <%=mudras[i].release %>
+                  <li>Gently separate your middle finger and thumb, releasing the circle or ring shape created by
+                    joining their tips.</li>
+                  <li>Allow your fingers to naturally unfold and extend.</li>
+                  <li>Relax your hands on your knees or thighs.</li>
+                  <li>letting them rest in a comfortable position.</li>
+                  <li>Take a moment to observe any sensations or shifts in your energy after releasing the mudra.</li>
+                  <li>If you wish, you can take a few deep breaths or continue with your meditation or yoga practice.
+                  </li>
                 </ul>
                 <h4>Duration : </h4>
                 <ul>
-                  <%=mudras[i].duration %>
+                  <li>Practice for 10-15 minutes daily.</li>
+                  <li>You can extend it to 40-45 minutes Daily.</li>
                 </ul>
               </div>
             </div>
 
+          
 
-            <script>
-              function openDialog(cardNum, dialogNum) {
-                const card = document.getElementById('mudra-card-' + cardNum);
-                const dialog = document.getElementById('dialog-' + dialogNum);
-        
-                dialog.style.display = 'block';
-              }
-        
-              function closeDialog(dialogNum) {
-                const closeBtn = document.getElementById('close-' + dialogNum);
-                const dialog = document.getElementById('dialog-' + dialogNum);
-                dialog.style.display = 'none';
-              }
-        
-            </script>
-          <% } %>
           </div>
         </div>
       </div>
     </section>
+
+    <script>
+      function openDialog(cardNum, dialogNum) {
+        const card = document.getElementById('mudra-card-' + cardNum);
+        const dialog = document.getElementById('dialog-' + dialogNum);
+
+        dialog.style.display = 'block';
+      }
+
+      function closeDialog(dialogNum) {
+        const closeBtn = document.getElementById('close-' + dialogNum);
+        const dialog = document.getElementById('dialog-' + dialogNum);
+        dialog.style.display = 'none';
+      }
+
+    </script>
 
   </main>
   <footer class="footer">

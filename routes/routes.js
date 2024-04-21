@@ -5,8 +5,8 @@ const User = require('../model/users');
 const Volunteer = require('../model/volunteer');
 const DailyMotivation = require('../model/dailyMotivation');
 const Donations = require('../model/donations');
+const Mudras = require('../model/mudras'); 
 const paymentController = require('../controllers/paymentController');
-const users = require('../model/users');
 
 
 router.get('/', (req, res) => {
@@ -143,7 +143,10 @@ router.get("/dailyMotivation", (req, res) => {
                 for (let i = 0; i < videos.length; i++) {
                     colors.push(getRandomColor());
                 }
-                res.render('motivation', { todayVideo: todayVideo,videos : videos.reverse(),colors:colors });
+                Mudras.find().then((mudras) => {
+
+                    res.render('motivation', { mudras :mudras, todayVideo: todayVideo,videos : videos.reverse(),colors:colors });
+                });
                 
             });
         });
@@ -181,8 +184,10 @@ router.post('/save-pay-donations',async(req,res)=>{
 router.get("/donations", (req, res) => {
 
     if (req.session.userId) {
+
         Donations.find().then((donations) => {
             User.findById(req.session.userId).then((user) => {
+                        
                 res.render('donations', { donations: donations, user : user });
             });
         }).catch((err) => {
