@@ -1,12 +1,34 @@
 require('dotenv').config();
 const express = require('express');
 const router = express.Router();
+const expressFileUpload = require('express-fileupload');
 const User = require('../model/users');
 const Volunteer = require('../model/volunteer');
 const DailyMotivation = require('../model/dailyMotivation');
 const Donations = require('../model/donations');
-const Mudras = require('../model/mudras'); 
+const Mudras = require('../model/mudras');
+const DifferentlyAbleContactForms = require('../model/differentlyAbleContactForm');
 const paymentController = require('../controllers/paymentController');
+const path = require('path')
+
+router.use(expressFileUpload());
+
+const { initializeApp } = require("firebase/app");
+const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require("firebase/storage");
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBn798z5IVXx6lV7V_rKfrj3Pbj30O_gaU",
+    authDomain: "madhavsewasociety-31fb8.firebaseapp.com",
+    projectId: "madhavsewasociety-31fb8",
+    storageBucket: "madhavsewasociety-31fb8.appspot.com",
+    messagingSenderId: "588888204355",
+    appId: "1:588888204355:web:c51aba510f00591b5f20f6",
+    measurementId: "G-SCEKMEZ3NL"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+
 
 
 router.get('/', (req, res) => {
@@ -137,7 +159,7 @@ router.get("/dailyMotivation", (req, res) => {
         let today = new Date();
         let dateStr = today.toISOString().split('T')[0] + '.mp4';
         let colors = [];
-        
+
         DailyMotivation.findOne({ videoName: dateStr }).then((todayVideo) => {
             DailyMotivation.find().then((videos) => {
                 for (let i = 0; i < videos.length; i++) {
@@ -145,9 +167,9 @@ router.get("/dailyMotivation", (req, res) => {
                 }
                 Mudras.find().then((mudras) => {
 
-                    res.render('motivation', { mudras :mudras, todayVideo: todayVideo,videos : videos.reverse(),colors:colors });
+                    res.render('motivation', { mudras: mudras, todayVideo: todayVideo, videos: videos.reverse(), colors: colors });
                 });
-                
+
             });
         });
 
@@ -159,8 +181,8 @@ router.get("/dailyMotivation", (req, res) => {
 
 router.post('/donations/pay', paymentController.payDonations);
 
-router.post('/save-pay-donations',async(req,res)=>{
-    const {paymentId, donation_name,amount,userId } = req.body;
+router.post('/save-pay-donations', async (req, res) => {
+    const { paymentId, donation_name, amount, userId } = req.body;
     try {
         const donation = await Donations.findOne(donation_name);
 
@@ -172,13 +194,13 @@ router.post('/save-pay-donations',async(req,res)=>{
         await donation.save();
 
         res.redirect('/donations');
-        
+
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error' });
     }
-    
-    
+
+
 })
 
 router.get("/donations", (req, res) => {
@@ -187,8 +209,8 @@ router.get("/donations", (req, res) => {
 
         Donations.find().then((donations) => {
             User.findById(req.session.userId).then((user) => {
-                        
-                res.render('donations', { donations: donations, user : user });
+
+                res.render('donations', { donations: donations, user: user });
             });
         }).catch((err) => {
             res.json({ error: err });
@@ -210,27 +232,64 @@ router.get("/aboutVivekJoshi", (req, res) => {
     }
 })
 
-
-router.get("/differentlyAbleContactForm", (req, res) => {
-
-    if (req.session.userId) {
-        res.render('disabilityConnect');
+router.post('/upload-differentlyAbleContactForm', (req, res) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
     }
-    else {
-        res.redirect('/login');
-    }
-})
+    const { name, email, phone, father, mother, gender, qualification, percentage, services, } = req.body;
+    const imgFile = req.files.disability_certificate_img;
+    let storage = getStorage(firebaseApp);
+    const imgExtension = path.extname(imgFile.name);
+    let storageRef = ref(storage, 'differentlyAbledContactForm/' + name + imgExtension);
+
+    let metadata = {
+        contentType: 'image/' + imgExtension.replace('.', '')
+    };
+
+    let uploadTask = uploadBytesResumable(storageRef, imgFile.data, metadata);
+    uploadTask.on('state_changed',
+        (snapshot) => {
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+        },
+        (err) => {
+            res.status(500).send(err);
+        },
+        () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                console.log('File available at', downloadURL);
+                const differentlyAbleContactForm = new DifferentlyAbleContactForms({ name: name, email: email, phone: phone, father: father, mother: mother, gender: gender, services: services, percentage: percentage, qualifications: qualification, img_url: downloadURL });
+
+                differentlyAbleContactForm.save().then(() => {
+                    res.redirect('/differentlyAbleContactForm');
+                }).catch(err => {
+                    res.json({ error: err });
+                });
+            });
+        });
+
+    });
+
+    router.get("/differentlyAbleContactForm", (req, res) => {
+
+        if (req.session.userId) {
+            res.render('disabilityConnect');
+        }
+        else {
+            res.redirect('/login');
+        }
+    })
 
 
-router.get("/connectWithUs", (req, res) => {
+    router.get("/connectWithUs", (req, res) => {
 
-    if (req.session.userId) {
-        res.render('connectWithUs');
-    }
-    else {
-        res.redirect('/login');
-    }
-})
+        if (req.session.userId) {
+            res.render('connectWithUs');
+        }
+        else {
+            res.redirect('/login');
+        }
+    })
 
 
 module.exports = router;

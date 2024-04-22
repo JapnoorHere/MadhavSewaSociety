@@ -89,27 +89,27 @@
             <div class="form-container">
                 <div class="form-content">
                     <h1>Tell Us About Yourself</h1>
-                    <form action="">
-                        <input type="text" placeholder="Name">
-                        <input type="email" placeholder="Email">
-                        <input type="tel" placeholder="Phone Number">
-                        <input type="text" placeholder="Father's Name">
-                        <input type="text" placeholder="Mother's Name">
+                    <form action="/upload-differentlyAbleContactForm" method="post" enctype="multipart/form-data">
+                        <input type="text" placeholder="Name" name="name">
+                        <input type="email" placeholder="Email" name="email">
+                        <input type="tel" placeholder="Phone Number" name="phone">
+                        <input type="text" placeholder="Father's Name" name="father">
+                        <input type="text" placeholder="Mother's Name" name="mother">
                         <div class="genderr">
                             <h5>Gender : </h5>
-                            <input type="radio" id="male" name="gender"> <label for="male">Male</label>
-                            <input type="radio" id="female" name="gender"> <label for="female">Female</label>
-                            <input type="radio" id="other" name="gender"> <label for="other">Other</label>
+                            <input type="radio" value="male" id="male" name="gender"> <label for="male">Male</label>
+                            <input type="radio" value="female" id="female" name="gender"> <label for="female">Female</label>
+                            <input type="radio" value="other" id="other" name="gender"> <label for="other">Other</label>
                         </div>
 
-                        <textarea type="text" placeholder="Education Qualification" rows="7" cols="50"></textarea>
-                        <input type="text" placeholder="Percentage of Disability">
-                        <textarea type="text" placeholder="Type of Services" rows="7" cols="50"></textarea>
+                        <textarea type="text" name="qualification" placeholder="Education Qualification" rows="7" cols="50"></textarea>
+                        <input type="text" name="percentage" placeholder="Percentage of Disability">
+                        <textarea type="text" name="services" placeholder="Type of Services" rows="7" cols="50"></textarea>
                         <div class="disableCertificate">
                         <h5>Upload your Disability Certificate : </h5>
-                        <input id="disabilityCertificate" type="file">
+                        <input id="disabilityCertificate" type="file" name="disability_certificate_img">
                       </div>
-                        <button>Submit</button>
+                        <button type="submit">Submit</button>
                     </form>
                 </div>
             </div>

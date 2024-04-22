@@ -108,7 +108,7 @@
             <div class="cardd">
               <a target="_blank" href="<%= videos[i].videoUrl  %>">
                 <div class="card-bg" style="background-color: <%= colors[i] %>;">
-                    <% 
+                    <%
                         let date = new Date(videos[i].videoName.replace('.mp4',""));
                         let formattedDate = date.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
                     %>
