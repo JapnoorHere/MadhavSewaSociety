@@ -24,6 +24,7 @@ a{
 }
 
 * {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -32,7 +33,6 @@ a{
 body {
   overflow-x: hidden;
   height: 100vh;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* 
@@ -57,7 +57,7 @@ body {
 }
 
 .home .home-container .content-left h3 {
-  color: var(--dark-orange-color);
+  color: black;
   font-size: 2rem;
 }
 

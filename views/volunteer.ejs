@@ -44,7 +44,6 @@
               About Us
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="#">Madhav Sewa Society</a></li>
               <li><a class="dropdown-item" href="/aboutVivekJoshi">Vivek Joshi</a></li>
             </ul>
           </li>
@@ -86,13 +85,13 @@
             <h1>Take action, spread kindness, volunteer</h1>
             <hr>
             <p>Become a Volunteer</p>
-            <form action="/submitVolunteer" method="post">
-              <input type="text" placeholder="Name" name="name">
-              <input type="email" placeholder="Email" name="email">
-              <input type="tel" placeholder="Phone Number" name="phoneNumber">
-              <input type="text" name="dateOfBirth" placeholder="Date of Birth" onfocus="(this.type='date')"
+            <form id="myForm" action="/submitVolunteer"  method="post">
+              <input type="text" placeholder="Name" required name="name">
+              <input type="email" placeholder="Email" required name="email">
+              <input type="tel" placeholder="Phone Number" required name="phoneNumber">
+              <input type="text" name="dateOfBirth" required placeholder="Date of Birth" onfocus="(this.type='date')"
               onblur="(this.type='text')">
-              <textarea name="qualification" placeholder="Qualifications" cols="30" rows="10"></textarea>
+              <textarea name="qualification" required placeholder="Qualifications" cols="30" rows="10"></textarea>
               <select id="skills" name="field" required>
                 <option selected name>Choose one option</option>
                 <option value="IT support">IT support</option>
@@ -122,19 +121,18 @@
         <div class="footer-col">
           <h4>NGO</h4>
           <ul>
-            <li><a href="#">Donate Now</a></li>
-            <li><a href="#">Daily Motivation</a></li>
-            <li><a href="#">Events</a></li>
-            <li><a href="#">About US</a></li>
+            <li><a href="/donations">Donate Now</a></li>
+            <li><a href="/dailyMotivation">Daily Motivation</a></li>
+            <li><a href="/connectWithUs">Events</a></li>
+            <li><a href="/aboutVivekJoshi">About Vivek Joshi</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>get help</h4>
           <ul>
-            <li><a href="#">Become a Volunteer</a></li>
-            <li><a href="#">Connect With Us</a></li>
-            <li><a href="#">Disable Contact Form</a></li>
-            <li><a href="#">About Disability</a></li>
+            <li><a href="/volunteer">Become a Volunteer</a></li>
+            <li><a href="/connectWithUs">Connect With Us</a></li>
+            <li><a href="/differentlyAbleContactForm">Disable Contact Form</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -148,6 +146,12 @@
       </div>
     </div>
   </footer>
+
+  <form id="myForm">
+    <button type="submit">Submit</button>
+  </form>
+  
+ 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

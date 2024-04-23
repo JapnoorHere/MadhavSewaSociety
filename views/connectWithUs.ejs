@@ -43,7 +43,6 @@
               About Us
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="#">Madhav Sewa Society</a></li>
               <li><a class="dropdown-item" href="/aboutVivekJoshi">Vivek Joshi</a></li>
             </ul>
           </li>
@@ -84,26 +83,26 @@
                     <div class="left-container">
                         <h1>Get in touch with <div>Vivek Joshi</div>
                         </h1>
-                        <p>We will let you know when we are available.</p>
+                        <p>Invite Vivek Joshi for any event</p>
                     </div>
 
                     <div class="right-container">
                         <div class="connect-card">
                             <h2>Connect With US</h2>
-                            <form action="">
-                                <input type="text" placeholder="Name">
-                                <input type="email" placeholder="Email">
-                                <input type="tel" placeholder="Phone Number">
-                                <input type="text" placeholder="Date & Time" onfocus="(this.type='datetime-local')"
-                                    onblur="(this.type='text')">
-                                <select id="skills" required>
+                            <form action="/upload-connectWithUs" method="post"> 
+                                <input required type="text" placeholder="Name" name="name">
+                                <input required type="email" placeholder="Email" name="email">
+                                <input required type="tel" placeholder="Phone Number" name="phone">
+                                <input required type="text" placeholder="Date & Time" onfocus="(this.type='datetime-local')"
+                                    onblur="(this.type='text')" name="dateAndTime">
+                                <select id="invite" name="invite" required>
                                     <option disabled selected>Choose one option</option>
-                                    <option value="1">One-to-One Counselling Session at my home</option>
-                                    <option value="2">Motivation Session at School/University</option>
-                                    <option value="3">Kick Drugs Session at School/University</option>
+                                    <option value="One-to-One Counselling Session at my home">One-to-One Counselling Session at my home</option>
+                                    <option value="Motivation Session at School/University">Motivation Session at School/University</option>
+                                    <option value="Kick Drugs Session at School/University">Kick Drugs Session at School/University</option>
                                 </select>
-                                <input type="place" placeholder="Place of Event (School, University If any)">
-                                <button>Submit</button>
+                                <input required type="text" name="place" placeholder="Place of Event (School, University If any)">
+                                <button type="submit">Submit</button>
                             </form>
                         </div>
                     </div>
@@ -133,7 +132,7 @@
                             <div class="img-container">
                                 <img src="images/madhav.jpg" alt="">
                             </div>
-                            <h1>Sweater Distribution</h1>
+                            <h1>Clothes Distribution</h1>
                         </div>
                         <div class="cardd">
                             <div class="img-container">
@@ -151,37 +150,36 @@
     </main>
 
     <footer class="footer">
-        <div class="footer-container">
-          <div class="row">
-            <div class="footer-col">
-              <h4>NGO</h4>
-              <ul>
-                <li><a href="#">Donate Now</a></li>
-                <li><a href="#">Daily Motivation</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">About US</a></li>
-              </ul>
-            </div>
-            <div class="footer-col">
-              <h4>get help</h4>
-              <ul>
-                <li><a href="#">Become a Volunteer</a></li>
-                <li><a href="#">Connect With Us</a></li>
-                <li><a href="#">Disable Contact Form</a></li>
-                <li><a href="#">About Disability</a></li>
-              </ul>
-            </div>
-            <div class="footer-col">
-              <h4>follow us</h4>
-              <div class="social-links">
-                <a href="https://www.facebook.com/madhav.sewa.soceity`"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/vivekjoshimasoom/"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.linkedin.com/company/madhav-sewa-society/"><i class="fab fa-linkedin-in"></i></a>
-              </div>
+      <div class="footer-container">
+        <div class="row">
+          <div class="footer-col">
+            <h4>NGO</h4>
+            <ul>
+              <li><a href="/donations">Donate Now</a></li>
+              <li><a href="/dailyMotivation">Daily Motivation</a></li>
+              <li><a href="/connectWithUs">Events</a></li>
+              <li><a href="/aboutVivekJoshi">About Vivek Joshi</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>get help</h4>
+            <ul>
+              <li><a href="/volunteer">Become a Volunteer</a></li>
+              <li><a href="/connectWithUs">Connect With Us</a></li>
+              <li><a href="/differentlyAbleContactForm">Disable Contact Form</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>follow us</h4>
+            <div class="social-links">
+              <a href="https://www.facebook.com/madhav.sewa.soceity`"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://www.instagram.com/vivekjoshimasoom/"><i class="fab fa-instagram"></i></a>
+              <a href="https://www.linkedin.com/company/madhav-sewa-society/"><i class="fab fa-linkedin-in"></i></a>
             </div>
           </div>
         </div>
-     </footer>
+      </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

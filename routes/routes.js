@@ -8,6 +8,7 @@ const DailyMotivation = require('../model/dailyMotivation');
 const Donations = require('../model/donations');
 const Mudras = require('../model/mudras');
 const DifferentlyAbleContactForms = require('../model/differentlyAbleContactForm');
+const ConnectWithUs = require('../model/connectWithUs');
 const paymentController = require('../controllers/paymentController');
 const path = require('path')
 
@@ -32,7 +33,8 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 
 router.get('/', (req, res) => {
-    res.render('index');
+    console.log(req.session.userId);
+    res.render('index',{userId : req.session.userId});
 })
 
 //login
@@ -280,6 +282,15 @@ router.post('/upload-differentlyAbleContactForm', (req, res) => {
         }
     })
 
+    router.post('/upload-connectWithUs',(req,res)=>{
+        const {name,email,phone,invite,place,dateAndTime} = req.body;
+        const connectWithUs = new ConnectWithUs({name : name,email : email,phone : phone,invite : invite,place : place,dateAndTime : dateAndTime});
+        connectWithUs.save().then(()=>{
+            res.redirect('/connectWithUs');
+        }).catch(err=>{
+            res.json({error:err});
+        })
+    })
 
     router.get("/connectWithUs", (req, res) => {
 
