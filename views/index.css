@@ -586,7 +586,6 @@ ul {
     color: #24262b;
     background-color: #ffffff;
 }
-
 .dialog {
     position: absolute;
     right: 0;
@@ -602,6 +601,13 @@ ul {
     overflow: auto;
 }
 
+@media screen and (max-width: 600px) {
+    .dialog {
+        width: 90%;
+        margin-right: 5%;
+    }
+}
+
 .dialog-container{
     height: 100%;
     display: flex;
@@ -610,9 +616,11 @@ ul {
     justify-content: center;
     align-items: center;
 }
+
 .dialog-container a{
     width: 100%;
 }
+
 #login{
     width: 100%;
     background-color: var(--dark-orange-color);
@@ -622,7 +630,6 @@ ul {
     border: 1px solid transparent;
     transition: all 0.25s linear 0s;
 }
-
 
 #login:hover{
     background-color: var(--light-orange-color);
@@ -641,7 +648,6 @@ ul {
     transition: all 0.25s linear 0s;
     width: 100%;
 }
-
 
 #signup:hover{
     background-color: var(--dark-orange-color);
