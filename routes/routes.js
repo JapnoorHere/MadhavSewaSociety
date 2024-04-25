@@ -108,6 +108,7 @@ router.post('/signup', async (req, res) => {
         const user = new User({ name, email, phone, password });
         console.log(user);
         await user.save();
+        req.session.userId = user.id;
         res.redirect('/signup-success');
     }
     catch (error) {

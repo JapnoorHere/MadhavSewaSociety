@@ -15,7 +15,6 @@ app.use(session({
   secret : "this_is_secret_key",
   resave : false,
   saveUninitialized : false,
-  maxAge : 30 * 24 * 60 * 60 * 1000
 }));
 
 app.use(express.json());
