@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 4000;
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const cors = require('cors')
 
 //*middlewares
 app.use(express.urlencoded({ extended: false }));
@@ -16,6 +17,13 @@ app.use(session({
   resave : false,
   saveUninitialized : false,
 }));
+
+app.use(cors(
+    {
+        origin : "*",
+        credentials : true
+    }
+));
 
 app.use(express.json());
 app.use(require('./routes/routes'));

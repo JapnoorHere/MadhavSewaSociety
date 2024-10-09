@@ -124,12 +124,12 @@ router.post('/signup', async (req, res) => {
 
 
 router.get("/volunteer", (req, res) => {
-    if (req.session.userId) {
+    // if (req.session.userId) {
         res.render('volunteer');
-    }
-    else {
-        res.redirect('/login');
-    }
+    // }
+    // else {
+        // res.redirect('/login');
+    // }
 })
 
 router.get('/successVolunteer', (req, res) => {
@@ -142,45 +142,39 @@ router.post('/submitVolunteer', (req, res) => {
 
     const volunteer = new Volunteer({ name: name, email: email, phoneNumber: phoneNumber, dateOfBirth: dateOfBirth, qualification: qualification, field: field, status: "0" });
     volunteer.save().then(() => {
-        res.redirect('/successVolunteer')
+        res.json({msg : 'success'})
     }).catch((err) => {
         res.json({ error: err });
     })
 })
 
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
 router.get("/dailyMotivation", (req, res) => {
+    let today = new Date();
+    let dateStr = today.toISOString().split('T')[0] + '.mp4'; // Getting today's date in the required format
 
-    if (req.session.userId) {
-        let today = new Date();
-        let dateStr = today.toISOString().split('T')[0] + '.mp4';
-        let colors = [];
-
-        DailyMotivation.findOne({ videoName: dateStr }).then((todayVideo) => {
-            DailyMotivation.find().then((videos) => {
-                for (let i = 0; i < videos.length; i++) {
-                    colors.push(getRandomColor());
-                }
-                Mudras.find().then((mudras) => {
-
-                    res.render('motivation', { mudras: mudras, todayVideo: todayVideo, videos: videos.reverse(), colors: colors });
+    // Fetch today's video and all videos from the database
+    DailyMotivation.findOne({ videoName: dateStr }).then((todayVideo) => {
+        DailyMotivation.find().then((videos) => {
+            Mudras.find().then((mudras) => {
+                // Sending the response with the data required by the React component
+                res.json({
+                    todayVideo: todayVideo,
+                    videos: videos.reverse(), // Reverse to show the latest videos first
+                    mudras: mudras
                 });
-
+            }).catch(err => {
+                console.error("Error fetching mudras:", err);
+                res.status(500).json({ error: "Failed to fetch mudras" });
             });
+        }).catch(err => {
+            console.error("Error fetching videos:", err);
+            res.status(500).json({ error: "Failed to fetch videos" });
         });
-
-    }
-    else {
-        res.redirect('/login');
-    }
-})
+    }).catch(err => {
+        console.error("Error fetching today's video:", err);
+        res.status(500).json({ error: "Failed to fetch today's video" });
+    });
+});
 
 router.post('/donations/pay', paymentController.payDonations);
 
@@ -207,80 +201,88 @@ router.post('/save-pay-donations', async (req, res) => {
 })
 
 router.get("/donations", (req, res) => {
-
-    if (req.session.userId) {
-
-        Donations.find().then((donations) => {
-            User.findById(req.session.userId).then((user) => {
-
-                res.render('donations', { donations: donations, user: user });
-            });
-        }).catch((err) => {
-            res.json({ error: err });
+    // Directly fetch donations from the database
+    Donations.find()
+        .then((donations) => {
+            // Send donations as JSON response
+            res.json(donations);
         })
-    }
-    else {
-        res.redirect('/login');
-    }
-})
+        .catch((err) => {
+            res.status(500).json({ error: err.message });
+        });
+});
 
 
 router.get("/aboutVivekJoshi", (req, res) => {
 
-    if (req.session.userId) {
+    // if (req.session.userId) {
         res.render('aboutvivek');
-    }
-    else {
-        res.redirect('/login');
-    }
+    // }
+    // else {
+    //     res.redirect('/login');
+    // }
 })
 
 router.post('/upload-differentlyAbleContactForm', (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).send('No files were uploaded.');
+        return res.status(400).json({ message: 'No files were uploaded.' });
     }
-    const { name, email, phone, father, mother, gender, qualification, percentage, services, } = req.body;
+    
+    const { name, email, phone, father, mother, gender, qualification, percentage, services } = req.body;
     const imgFile = req.files.disability_certificate_img;
-    let storage = getStorage(firebaseApp);
     const imgExtension = path.extname(imgFile.name);
-    let storageRef = ref(storage, 'differentlyAbledContactForm/' + name + imgExtension);
+    const storage = getStorage(firebaseApp);
+    const storageRef = ref(storage, 'differentlyAbledContactForm/' + name + imgExtension);
 
-    let metadata = {
+    const metadata = {
         contentType: 'image/' + imgExtension.replace('.', '')
     };
 
-    let uploadTask = uploadBytesResumable(storageRef, imgFile.data, metadata);
+    const uploadTask = uploadBytesResumable(storageRef, imgFile.data, metadata);
     uploadTask.on('state_changed',
         (snapshot) => {
-            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log('Upload is ' + progress + '% done');
         },
         (err) => {
-            res.status(500).send(err);
+            console.error(err);
+            return res.status(500).json({ message: 'File upload failed.', error: err });
         },
         () => {
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                 console.log('File available at', downloadURL);
-                const differentlyAbleContactForm = new DifferentlyAbleContactForms({ name: name, email: email, phone: phone, father: father, mother: mother, gender: gender, services: services, percentage: percentage, qualifications: qualification, img_url: downloadURL });
+                const differentlyAbleContactForm = new DifferentlyAbleContactForms({
+                    name,
+                    email,
+                    phone,
+                    father,
+                    mother,
+                    gender,
+                    qualifications: qualification,
+                    services,
+                    percentage,
+                    img_url: downloadURL
+                });
 
                 differentlyAbleContactForm.save().then(() => {
-                    res.redirect('/differentlyAbleContactForm');
+                    return res.status(200).json({ message: 'Form submitted successfully!' });
                 }).catch(err => {
-                    res.json({ error: err });
+                    console.error(err);
+                    return res.status(500).json({ message: 'Failed to save form data.', error: err });
                 });
             });
-        });
-
-    });
+        }
+    );
+});
 
     router.get("/differentlyAbleContactForm", (req, res) => {
 
-        if (req.session.userId) {
+        // if (req.session.userId) {
             res.render('disabilityConnect');
-        }
-        else {
-            res.redirect('/login');
-        }
+        // }
+        // else {
+        //     res.redirect('/login');
+        // }
     })
 
     router.post('/upload-connectWithUs',(req,res)=>{
@@ -295,12 +297,12 @@ router.post('/upload-differentlyAbleContactForm', (req, res) => {
 
     router.get("/connectWithUs", (req, res) => {
 
-        if (req.session.userId) {
+        // if (req.session.userId) {
             res.render('connectWithUs');
-        }
-        else {
-            res.redirect('/login');
-        }
+        // }
+        // else {
+        //     res.redirect('/login');
+        // }
     })
 
 
