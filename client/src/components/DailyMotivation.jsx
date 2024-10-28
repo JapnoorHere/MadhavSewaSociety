@@ -135,24 +135,48 @@ const DailyMotivation = () => {
                                             &times;
                                         </button>
                                         <h2 className="text-3xl font-semibold text-gray-800 mb-4">{mudra.name}</h2>
+
+                                        {/* Mudra Image */}
+                                        <img
+                                            src={mudra.img_url}
+                                            alt={mudra.name}
+                                            className="w-full h-48 object-contain mb-4 rounded-lg"
+                                        />
+
+                                        {/* Mudra Description */}
                                         <p className="text-gray-700 mb-4">{mudra.description}</p>
+
+                                        {/* How to Perform */}
                                         <h4 className="text-lg font-bold text-gray-800 mt-4">How to Perform:</h4>
-                                        <ul className="list-disc list-inside text-gray-700">
-                                            <li>{mudra.perform}</li>
+                                        <ul className="list-disc list-inside text-gray-700 whitespace-pre-line">
+                                            {mudra.perform.split('\\n->').map((step, i) => (
+                                                <li key={i}>{step.trim()}</li>
+                                            ))}
                                         </ul>
+
+                                        {/* Benefits */}
                                         <h4 className="text-lg font-bold text-gray-800 mt-4">Benefits:</h4>
                                         <p className="text-gray-700">{mudra.benefits}</p>
+
+                                        {/* Release */}
                                         <h4 className="text-lg font-bold text-gray-800 mt-4">Release:</h4>
                                         <ul className="list-disc list-inside text-gray-700">
-                                            <li>{mudra.release}</li>
+                                            {mudra.release.split('\\n->').map((step, i) => (
+                                                <li key={i}>{step.trim()}</li>
+                                            ))}
                                         </ul>
+
+                                        {/* Duration */}
                                         <h4 className="text-lg font-bold text-gray-800 mt-4">Duration:</h4>
                                         <ul className="list-disc list-inside text-gray-700">
-                                            <li>{mudra.duration}</li>
+                                            {mudra.duration.split('\\n->').map((time, i) => (
+                                                <li key={i}>{time.trim()}</li>
+                                            ))}
                                         </ul>
                                     </div>
                                 </div>
                             )}
+
                         </div>
                     ))}
                 </div>
