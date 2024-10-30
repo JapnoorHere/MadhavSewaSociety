@@ -1,0 +1,362 @@
+:root {
+    --light-orange-color: #fff8f1;
+    --dark-orange-color: #ffa85a;
+    --fade-light-orange-color: #fff8f180;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: var(--dark-orange-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--light-orange-color); 
+}
+
+
+
+*{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.daily-motivation-container {
+    max-width: 100vw;
+    height: 70vh;
+}
+
+.daily-motivation-content {
+    background-image: url(../images/motivation.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-position: center;
+    flex-direction: column;
+    padding-left: 20vh;
+
+}
+
+.daily-motivation-content h1 {
+    color: white;
+    font-size: 3rem;
+    font-weight: 900;
+    margin-top: 8rem;
+}
+
+
+.daily-motivation-content p {
+    color: rgb(224, 224, 224);
+    font-size: 1.3rem;
+}
+
+.daily-motivation-content button {
+    border: none;
+    padding: 1rem 2rem 1rem 2rem;
+    background-color: black;
+    color: white;
+    border-radius: 20px;
+    border: 2px solid white;
+    width: 150px;
+}
+
+
+
+.all-videos-card-container{
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5rem;
+}
+
+
+.all-videos-card-content {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: transform 0.3s ease; 
+}
+
+.all-videos-card-content .cardd {
+    display: inline-block;
+    height: 200px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.all-videos-card-content .cardd h1{
+    font-size: 1.5rem;
+}
+
+
+.all-videos-card-content .cardd a{
+    text-decoration: none;
+}
+
+
+.all-videos-card-content .cardd .card-bg {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #e91e63;
+    color: white;
+}
+
+.btn-container {
+    display: flex;
+    gap: 1rem;
+    align-self: flex-end;
+    margin-top: 2rem;
+    margin: 2rem;
+}
+
+.btn-container div{
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.btn-container div img{
+    height: 100%;
+    width: 100%;
+}
+
+@media screen and (max-width : 980px) {
+    .daily-motivation-content h1{
+        font-size: 2.5rem;
+    }
+    .daily-motivation-content{
+        padding-left: 100px;
+    }
+}
+
+@media screen and (max-width : 980px) {
+    .daily-motivation-content h1{
+        font-size: 2rem;
+    }
+    .daily-motivation-content{
+        padding-left: 50px;
+        padding-right: 100px;
+    }
+
+    .daily-motivation-content button {
+        width: 120px;
+        font-size: 0.7rem;
+    }
+}
+
+@media screen and (max-width : 500px) {
+    .daily-motivation-content h1{
+        font-size: 1.5rem;
+        margin-top: 4rem;
+    }
+
+
+}
+
+.mudras-container{
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.mudras-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.mudras-card-content{
+    display : grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.mudra-card{
+    cursor: pointer;
+    height: 350px;
+    width: 300px;
+    background-color: var(--light-orange-color);
+    padding: 2rem;
+    border: 2px solid var(--dark-orange-color);
+    transition: all 0.25s ease-in-out;
+    
+}
+
+.mudra-card:hover{
+    transform: scale(1.05);
+    rotate: 1deg;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.mudra-card .img-container{
+    height: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.mudra-card h3{
+    text-align: center;
+}
+
+.mudra-card .img-container img{
+    height: 100%;
+}
+
+.mudra-card p{
+    text-align: center;
+    font-size: 0/8rem;
+}
+
+.dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    height: 90vh;
+    width: 95vw;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    max-height: 80%;
+  }
+  
+  .dialog-content {
+    text-align: center;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .close:hover {
+    color: red;
+  }
+
+@media screen and (max-width : 1000px) {
+    .mudras-card-content{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+}
+
+@media screen and (max-width : 678px) {
+    .mudras-card-content{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+}
+
+@media screen and (max-width : 330px) {
+    .mudra-card{
+        width: 200px;
+        height: 450px;
+    }
+}
+
+
+.footer-container{
+	max-width: 1170px;
+	margin:auto;
+}
+.row{
+	display: flex;
+	flex-wrap: wrap;
+}
+ul{
+	list-style: none;
+}
+.footer{
+	background-color: var(--dark-orange-color);
+    padding: 70px 0;
+}
+.footer-col{
+   width: 25%;
+   padding: 0 15px;
+}
+.footer-col h4{
+	font-size: 18px;
+	color: black;
+	text-transform: capitalize;
+	margin-bottom: 35px;
+	font-weight: 500;
+	position: relative;
+}
+.footer-col h4::before{
+	content: '';
+	position: absolute;
+	left:0;
+	bottom: -10px;
+	background-color: #e91e63;
+	height: 2px;
+	box-sizing: border-box;
+	width: 50px;
+}
+.footer-col ul li:not(:last-child){
+	margin-bottom: 10px;
+}
+.footer-col ul li a{
+	font-size: 16px;
+	text-transform: capitalize;
+	color: black;
+	text-decoration: none;
+	font-weight: 300;
+	display: block;
+	transition: all 0.3s ease;
+}
+.footer-col ul li a:hover{
+	color: #ffffff;
+	padding-left: 8px;
+}
+.footer-col .social-links a{
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	background-color: rgba(255,255,255,0.2);
+	margin:0 10px 10px 0;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 50%;
+	color: #ffffff;
+	transition: all 0.5s ease;
+}
+.footer-col .social-links a:hover{
+	color: #24262b;
+	background-color: #ffffff;
+}
+
+/*responsive*/
+@media(max-width: 1264px){
+    .footer-container{
+        padding: 0 50px;
+    
+    }
+  .footer-col{
+    width: 50%;
+
+}
+}
+@media(max-width: 574px){
+  .footer-col{
+    width: 100%;
+}
+}

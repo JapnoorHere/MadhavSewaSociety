@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Madhav Sewa Society</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="donations.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="icon" href="images/mss-logo.png">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light p-3" style="background-color: #ffa85a ;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" style="color: white;">Madhav Sewa Society </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class=" collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ms-auto ">
+          <li class="nav-item">
+            <a class="nav-link mx-2 " aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link mx-2" href="/volunteer">Become a volunteer</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link mx-2" href="/dailyMotivation">Daily Motivation & Mudras</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link mx-2 active" href="/donations">Donate</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              About Us
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="/aboutVivekJoshi">Vivek Joshi</a></li>
+            </ul>
+          </li>
+
+
+          <li class="nav-item dropdown">
+            <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Contact Us
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="/differentlyAbleContactForm">Differently able Contact</a></li>
+              <li><a class="dropdown-item" href="/connectWithUs">Connect With Us</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto d-none d-lg-inline-flex">
+          <li class="nav-item mx-2">
+            <a class="nav-link text-dark h5" href="https://www.instagram.com/vivekjoshimasoom/" target="_blank"><i
+                style="color: white;" class="fab fa-instagram"></i></a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link text-dark h5" href="https://www.linkedin.com/company/madhav-sewa-society/"
+              target="blank"><i style="color: white;" class="fab fa-linkedin"></i></a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link text-dark h5" href="https://www.facebook.com/madhav.sewa.soceity" target="blank"><i
+                style="color: white;" class="fab fa-facebook-square"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="banner-container">
+      <img src="images/donations-banner.png" alt="">
+    </div>
+
+    <section class="single-donations">
+      <div class="single-donations-container">
+        <h1>Your Donation will Provide...</h1>
+        <div class="top-content">
+
+          <div class="single-donations-card">
+            <h1>Rs 50</h1>
+            <p>Provides essential stationery items like notebooks, pens, and pencils for a child.</p>
+          </div>
+          <div class="single-donations-card">
+            <h1>Rs 100</h1>
+            <p>Provides textbooks, school bags, and educational materials for a child to excel in their studies.</p>
+          </div>
+          <div class="single-donations-card">
+            <h1>Rs 500</h1>
+            <p>nsures a child has warm clothing and basic necessities like socks and underwear.</p>
+          </div>
+
+          <div class="single-donations-card">
+            <h1>Rs 1000</h1>
+            <p>Supplies hygiene products like soap, toothpaste, and sanitary napkins for a child's well-being.</p>
+          </div>
+          <div class="single-donations-card">
+            <h1>Rs 5000</h1>
+            <p>Grants a scholarship to support a child's education expenses, including tuition fees and additional
+              learning resources.</p>
+          </div>
+          <div class="single-donations-card">
+            <h1>Rs 10000</h1>
+            <p>Contributes to community projects such as building libraries, playgrounds, or computer labs for
+              children's holistic development.
+
+            </p>
+          </div>
+
+        </div>
+
+    </section>
+    <script>
+      const payCards = document.querySelectorAll('.bottom-content .pay-card');
+
+      payCards.forEach(function (card) {
+        card.addEventListener('click', function () {
+          payCards.forEach(function (c) {
+            c.classList.remove('pay-card-clicked');
+            c.classList.add('pay-card');
+          });
+
+          card.classList.add('pay-card-clicked');
+          card.classList.remove('pay-card');
+        });
+      });
+
+
+
+    </script>
+
+    <section class="programme-donations">
+      <div class="programme-donations-container">
+        <div class="programme-donations-content">
+          <ul class="accordion">
+            <% for(let i=0;i<donations.length;i++){ %>
+              <li>
+                <input type="radio" name="accordion" id="<%=donations[i].donation_name %>">
+                <label class="heading-container" for="<%=donations[i].donation_name   %>">
+                  <%=donations[i].donation_name %>
+                    <form class="pay-form">
+                      <input type="hidden" name="donation_name" value="<%=donations[i].donation_name %>">
+                      <input type="hidden" name="donation_fund" value="<%=donations[i].donation_fund %>">
+                      <input type="hidden" name="donation_description" value="<%=donations[i].donation_description %>">
+                      <!-- <input type="hidden" name="userId" value="//<%= //userId %>"> -->
+                      <button type="submit">Donate Now</button>
+                    </form>
+                </label>
+                <div class="accordion-content">
+                  <div class="img-container">
+                    <img src="<%=donations[i].donation_image_url %>" alt="">
+                  </div>
+                  <p>
+                    <%=donations[i].donation_description %>
+                  </p>
+                </div>
+              </li>
+              <% } %>
+
+
+
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="row">
+        <div class="footer-col">
+          <h4>NGO</h4>
+          <ul>
+            <li><a href="/donations">Donate Now</a></li>
+            <li><a href="/dailyMotivation">Daily Motivation</a></li>
+            <li><a href="/connectWithUs">Events</a></li>
+            <li><a href="/aboutVivekJoshi">About Vivek Joshi</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>get help</h4>
+          <ul>
+            <li><a href="/volunteer">Become a Volunteer</a></li>
+            <li><a href="/connectWithUs">Connect With Us</a></li>
+            <li><a href="/differentlyAbleContactForm">Disable Contact Form</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>follow us</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/madhav.sewa.soceity`"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/vivekjoshimasoom/"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/company/madhav-sewa-society/"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+  $(document).ready(function () {
+    $('.pay-form').submit(function (e) {
+      e.preventDefault();
+
+      var formData = $(this).serialize();
+
+      $.ajax({
+        url: "/donations/pay",
+        type: "POST",
+        data: formData,
+        success: function (res) {
+          if (res.success) {
+            var options = {
+              "key": "" + res.key_id + "",
+              "donation_name": "" + res.donation_name + "",
+              "donation_fund": "" + res.donation_fund + "",
+              "userId": "<%= user._id %>",
+              "currency": "INR",
+              "donation_description": "" + res.donation_description + "",
+              "image": res.image,
+              "order_id": "" + res.order_id + "",
+              "handler": function (response) {
+                alert("Payment Succeeded");
+                var data = {
+                  paymentId: response.razorpay_payment_id,
+                  amount : response.razorpay_amount,
+                  donation_name: res.donation_name,
+                  userId : "<%= user._id %>"
+                };
+
+                fetch('/save-pay-donations', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(data),
+                })
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log('Success:', data);
+                  })
+                  .catch((error) => {
+                    console.error('Error:', error);
+                  });
+                // window.open("/","_self")
+              },
+              "prefill": {
+                "contact": "<%= user.phone %>",
+                "name": "<%= user.name %>",
+                "email": "<%= user.email %>"
+              },
+              "notes": {
+                "donation_description": "" + res.donation_description + ""
+              },
+              "theme": {
+                "color": "#ffa85a"
+              }
+            };
+            var razorpayObject = new Razorpay(options);
+            razorpayObject.on('payment.failed', function (response) {
+              alert("Payment Failed");
+            });
+            razorpayObject.open();
+          }
+          else {
+            alert(res.msg);
+          }
+        }
+      })
+
+    });
+  });
+
+</script>

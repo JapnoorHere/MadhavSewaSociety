@@ -1,0 +1,116 @@
+:root {
+    --light-orange-color: #fff8f1;
+    --dark-orange-color: #ffa85a;
+    --fade-light-orange-color: #fff8f180;
+
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: var(--dark-orange-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--light-orange-color); 
+}
+
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+
+body {
+    overflow-x: hidden;
+}
+
+main {
+    height: 100vh;
+    width: 100vw;
+    background: var(--light-orange-color);
+}
+
+.card {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;  
+}
+
+.container {
+    gap: 20px;
+    border-radius: 20px;
+    color: white;
+    background: var(--dark-orange-color);
+    margin: 0 auto;
+    width: 400px;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(100, 100, 111, 0.5)0px 7px 29px 0px;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    align-items: center;
+}
+
+input {
+    width: 70%;
+    border: 0;
+    border-radius: 5px;
+    background-color: var(--light-orange-color);
+    color: black;
+    padding: 9px 12px 9px 12px;
+    padding: 1rem 1.2rem 1rem 1.2rem;
+
+}
+
+input::placeholder{
+    color: gray;
+}
+
+button {
+    width: 50%;
+    align-self: center;
+    padding: 5px 10px 5px 10px;
+    background-color: var(--light-orange-color);
+    border: 0;
+    color: black;
+    border-radius: 5px;
+    transition: all 0.2s linear 0s;
+    border: 0.1px solid transparent;
+    padding: 0.7rem 1rem 0.7rem 1rem;
+}
+
+button:hover {
+    background-color: var(--dark-orange-color);
+    color: white;
+    cursor: pointer;
+    border: 0.1px solid black;
+    
+}
+
+::placeholder {
+    color: rgba(181, 181, 181, 0.412);
+}
+
+#error{
+    color: red;
+}
+
+a {
+    color: black;
+}

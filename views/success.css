@@ -1,0 +1,75 @@
+:root {
+    --light-orange-color: #fff8f1;
+    --dark-orange-color: #ffa85a;
+    --fade-light-orange-color: #fff8f180;
+
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: var(--dark-orange-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--light-orange-color); 
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+body {
+    overflow-x: hidden;
+}
+
+main {
+    height: 100vh;
+    width: 100vw;
+    background: var(--light-orange-color);
+}
+
+.card {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;  
+}
+
+.container {
+    gap: 20px;
+    margin: 0 auto;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 2rem;
+}
+.img-container{
+    height: 350px;
+    width: 350px;
+}
+.img-container img{
+    height: 100%;
+    width: 100%;
+}
+
+a {
+    color: black;
+}
+
+
+@media screen  and (max-width : 400px){
+    .img-container{
+        height: 250px;
+        width: 250px;
+    }
+}
