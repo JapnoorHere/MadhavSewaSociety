@@ -8,6 +8,7 @@ import AboutVivekJoshi from './components/AboutVivekJoshi'
 import DifferentlyAbleContactForm from './components/DifferentlyAbleContactForm'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Events from './components/Events'
+import Authentication from './components/Authentication'
 
 // Dummy Data for todayVideo, videos, and mudras
 
@@ -22,6 +23,7 @@ const App = () => {
         
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path='/auth/*' element={<Authentication />} />
           <Route path="/volunteer" element={<BecomeVolunteer />} />
           <Route path="/dailyMotivation" element={<DailyMotivation
 

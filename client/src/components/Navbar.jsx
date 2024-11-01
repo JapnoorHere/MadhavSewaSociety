@@ -1,11 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { useLocation } from 'react-router-dom';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const toggleNavbar = () => {
         setIsOpen(!isOpen);
     };
+
+    // Check if the token exists in cookies on mount
+    useEffect(()=>{
+        const user = localStorage.getItem('user');
+        if(!user){
+            if(location.pathname !== '/auth/login' && location.pathname !== '/auth/signup')
+                navigate('/auth/login');
+        }else{
+            if(location.pathname === '/auth/login' || location.pathname === '/auth/signup')
+                navigate('/');
+        }
+    },[])
+
+    const handleLogout = ()=>{
+        localStorage.removeItem('user');
+        navigate('/auth/login');
+    }
 
     return (
         <nav className="bg-orange-400 p-3">
@@ -46,10 +68,12 @@ const Navbar = () => {
                         <li className="nav-item">
                             <a className="block text-white px-3 py-2 rounded hover:bg-orange-500" href="/events">Events</a>
                         </li>
-                        
+                        {
+                        localStorage.getItem('user') && <li className="nav-item">
+                            <a className="block text-white px-3 py-2 rounded hover:bg-orange-500 cursor-pointer" onClick={handleLogout}  >Logout</a>
+                        </li>
+                        }
                     </ul>
-
-                    
                 </div>
             </div>
         </nav>

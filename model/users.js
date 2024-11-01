@@ -10,18 +10,12 @@ const userSchema = new mongoose.Schema({
         required : true,
         unique : true
     },
-    phone : {
-        type : String,
-        required : true,
-        unique : true
-    },
     password:{
         type : String,
         required : true
     },
     created : {
         type : String,
-        required : true,
         default : new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
     }
 },

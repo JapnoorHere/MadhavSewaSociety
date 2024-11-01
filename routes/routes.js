@@ -10,10 +10,23 @@ const Mudras = require('../model/mudras');
 const DifferentlyAbleContactForms = require('../model/differentlyAbleContactForm');
 const path = require('path')
 const Event = require('../model/events');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const Razorpay = require("razorpay");
+const bodyParser = require("body-parser");
+
+
 router.use(expressFileUpload());
 
 const { initializeApp } = require("firebase/app");
 const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require("firebase/storage");
+
+router.use(bodyParser.json());
+
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 
 const firebaseConfig = {
@@ -30,103 +43,79 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 
 
+
 router.get('/', (req, res) => {
     console.log(req.session.userId);
-    res.render('index',{userId : req.session.userId});
+    res.render('index', { userId: req.session.userId });
 })
-
-//login
-router.get('/login', (req, res) => {
-    res.render('login', { error: "" });
-})
-
-router.get('/signup', (req, res) => {
-    res.render('signup', { error: "" });
-})
-
-router.get('/success-login', (req, res) => {
-    res.render('success', { message: "You have been Successfully Logged In!" });
-})
-
-router.get('/user-not-found', (req, res) => {
-    res.render('login', { error: "User not found" });
-})
-
-router.get('/wrong-password', (req, res) => {
-    res.render('login', { error: "Wrong password" });
-})
-
-
 router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    // Validate input
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required.' });
+    }
+
     try {
-        const { email, password } = req.body;
+        // Check if user exists
         const user = await User.findOne({ email });
-        console.log(req.body);
-        console.log(user);
         if (!user) {
-            res.redirect("/user-not-found");
+            return res.status(401).json({ message: 'User not available' });
         }
-        else if (user.password !== password) {
-            res.redirect("/wrong-password");
+
+        // Check password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid email or password.' });
         }
-        else {
-            console.log(user.id);
-            req.session.userId = user.id;
-            res.redirect('/success-login');
-        }
+
+        // Generate JWT
+        const token = jwt.sign({ id: user._id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        // localStorage.setItem('token', token);
+        // localStorage.setItem('user', JSON.stringify(user));
+        res.json({ user, token, message: 'Login successful!' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error.' });
     }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({ error: "Login failed" });
-    }
-})
-
-//signup
-
-router.get('/signup', async (req, res) => {
-    res.render("signup");
-})
-
-router.get('/signup-success', (req, res) => {
-    res.render('success', { message: "You have been Successfully Signed Up!" });
-})
-
-router.get('/signup-failed', (req, res) => {
-    res.render('signup', { error: "Signup failed" });
-})
-
-router.get('/user-exists', (req, res) => {
-    res.render('signup', { error: "Email Or Phone Already Exists" });
-})
+});
 
 router.post('/signup', async (req, res) => {
-    // console.log(req.body);
-    try {
-        const { name, password, phone, email } = req.body;
-        const user = new User({ name, email, phone, password });
-        console.log(user);
-        await user.save();
-        req.session.userId = user.id;
-        res.redirect('/signup-success');
+    const { name, email, password } = req.body;
+
+    // Validate input
+    if (!name || !email || !password) {
+        return res.status(400).json({ message: 'Name, email, and password are required.' });
     }
-    catch (error) {
-        if (error.code === 11000) {
-            res.redirect('/user-exists');
+
+    try {
+        // Check if user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User already exists.' });
         }
-        else {
-            console.log(error);
-            res.redirect('/signup-failed');
-        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create user
+        const newUser = new User({ name, email, password: hashedPassword });
+        await newUser.save();
+
+        res.status(201).json({ message: 'User registered successfully!' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error.' });
     }
 });
 
 
 router.get("/volunteer", (req, res) => {
     // if (req.session.userId) {
-        res.render('volunteer');
+    res.render('volunteer');
     // }
     // else {
-        // res.redirect('/login');
+    // res.redirect('/login');
     // }
 })
 
@@ -140,7 +129,7 @@ router.post('/submitVolunteer', (req, res) => {
 
     const volunteer = new Volunteer({ name: name, email: email, phoneNumber: phoneNumber, dateOfBirth: dateOfBirth, qualification: qualification, field: field, status: "0" });
     volunteer.save().then(() => {
-        res.json({msg : 'success'})
+        res.json({ msg: 'success' })
     }).catch((err) => {
         res.json({ error: err });
     })
@@ -197,6 +186,21 @@ router.post('/save-pay-donations', async (req, res) => {
 
 })
 
+router.post("/create-order", async (req, res) => {
+    const { amount } = req.body; // Amount in rupees
+    const options = {
+        amount: amount * 100, // Razorpay expects amount in paise
+        currency: "INR",
+        receipt: `receipt_order_${Math.random() * 10000}`,
+    };
+    try {
+        const order = await razorpay.orders.create(options);
+        res.json({ id: order.id, amount: order.amount, currency: order.currency });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 router.get("/donations", (req, res) => {
     // Directly fetch donations from the database
     Donations.find()
@@ -213,7 +217,7 @@ router.get("/donations", (req, res) => {
 router.get("/aboutVivekJoshi", (req, res) => {
 
     // if (req.session.userId) {
-        res.render('aboutvivek');
+    res.render('aboutvivek');
     // }
     // else {
     //     res.redirect('/login');
@@ -224,7 +228,7 @@ router.post('/upload-differentlyAbleContactForm', (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).json({ message: 'No files were uploaded.' });
     }
-    
+
     const { name, email, phone, father, mother, gender, qualification, percentage, services } = req.body;
     const imgFile = req.files.disability_certificate_img;
     const imgExtension = path.extname(imgFile.name);
@@ -273,16 +277,16 @@ router.post('/upload-differentlyAbleContactForm', (req, res) => {
 });
 
 
-    router.get('/events', async (req, res) => {
-        try {
-            // Fetch all events from the database, sorted by the event date
-            const events = await Event.find().sort({ date: 1 });
-            res.json({ events });
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            res.status(500).json({ message: 'Failed to fetch events' });
-        }
-    });
+router.get('/events', async (req, res) => {
+    try {
+        // Fetch all events from the database, sorted by the event date
+        const events = await Event.find().sort({ date: 1 });
+        res.json({ events });
+    } catch (error) {
+        console.error('Error fetching events:', error);
+        res.status(500).json({ message: 'Failed to fetch events' });
+    }
+});
 
 
 module.exports = router;
