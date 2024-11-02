@@ -81,25 +81,25 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/signup', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
 
     // Validate input
-    if (!name || !email || !password) {
-        return res.status(400).json({ message: 'Name, email, and password are required.' });
+    if (!name || !email || !password || !phone) {
+        return res.status(400).json({ message: 'Name, email, phone and password are required.' });
     }
 
     try {
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: 'User already exists.' });
+            return res.status(402).json({ message: 'User already exists with this email.' });
         }
 
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create user
-        const newUser = new User({ name, email, password: hashedPassword });
+        const newUser = new User({ name, email, phone, password: hashedPassword });
         await newUser.save();
 
         res.status(201).json({ message: 'User registered successfully!' });
@@ -164,27 +164,36 @@ router.get("/dailyMotivation", (req, res) => {
 });
 
 
-router.post('/save-pay-donations', async (req, res) => {
-    const { paymentId, donation_name, amount, userId } = req.body;
+router.post('/save-donation', async (req, res) => {
+    const { orderId, user, donationName, donationAmount } = req.body;
+
     try {
-        const donation = await Donations.findOne(donation_name);
+        // Find or create a donation record
+        let donation = await Donations.findOne({ donation_name: donationName });
 
-        if (!donation) {
-            return res.status(404).json({ message: 'Donation or User not found' });
-        }
-        donation.users.push(userId);
+        // if (!donation) {
+        //     donation = new Donations({
+        //         donation_name: donationName,
+        //         donation_description: 'Description of donation', // Add details as needed
+        //         donation_fund: donationAmount,
+        //         donation_image_url: 'Image URL here' // Optional image for donation
+        //     });
+        // }
+        
+        // Add user details with donation time to the donation's users array
+        donation.users.push({
+            id: user.id,
+            donation_date_time: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
+        });
 
+        // Save to MongoDB
         await donation.save();
-
-        res.redirect('/donations');
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(200).json({ message: 'Donation record saved successfully!' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to save donation record' });
     }
+});
 
-
-})
 
 router.post("/create-order", async (req, res) => {
     const { amount } = req.body; // Amount in rupees

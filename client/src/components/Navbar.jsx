@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 import { useLocation } from 'react-router-dom';
 
 const Navbar = () => {
@@ -60,13 +59,13 @@ const Navbar = () => {
                             <a className="block text-white px-3 py-2 rounded hover:bg-orange-500" href="/donations">Donate</a>
                         </li>
                         <li className="nav-item">
-                            <a className="block text-white px-3 py-2 rounded hover:bg-orange-500" href="/aboutVivekJoshi">About Vivek Joshi</a>
-                        </li>
-                        <li className="nav-item">
                             <a className="block text-white px-3 py-2 rounded hover:bg-orange-500" href="/differentlyAbleContactForm">Differently Abled Contact Form</a>
                         </li>
                         <li className="nav-item">
                             <a className="block text-white px-3 py-2 rounded hover:bg-orange-500" href="/events">Events</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="block text-white px-3 py-2 rounded hover:bg-orange-500" href="/aboutVivekJoshi">About Vivek Joshi</a>
                         </li>
                         {
                         localStorage.getItem('user') && <li className="nav-item">

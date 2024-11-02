@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import DonationBanner from '../assets/donations-banner.png';
 import { AiOutlineDown } from 'react-icons/ai';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Donate = () => {
   const [donations, setDonations] = useState([]);
@@ -27,6 +30,7 @@ const Donate = () => {
   return (
     <main>
       <div className="overflow-hidden w-full h-auto">
+      <ToastContainer />
         <img src={DonationBanner} alt="Donations Banner" className="object-cover w-full h-full" />
       </div>
 
@@ -76,6 +80,7 @@ const DonationCard = ({ amount, description }) => (
 // Accordion Component with Razorpay Integration
 const Accordion = ({ donationName, donationDescription, donationImageUrl, donationAmount }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem('user'));
 
   // Function to handle Razorpay payment
   const handleDonate = async () => {
@@ -85,11 +90,7 @@ const Accordion = ({ donationName, donationDescription, donationImageUrl, donati
         amount: donationAmount
       });
       const { orderId, amount } = response.data;
-
-      console.log("Order ID:", orderId);
-        console.log("Amount:", amount);
-      
-
+  
       // Step 2: Initialize Razorpay
       const options = {
         key: "rzp_test_LVMfEY3Rs5STmn",
@@ -98,26 +99,40 @@ const Accordion = ({ donationName, donationDescription, donationImageUrl, donati
         name: "Donation",
         description: `Donation for ${donationName}`,
         order_id: orderId,
-        handler: function (response) {
-          alert(`Donation successful! Payment ID: ${response.razorpay_payment_id}`);
+        handler: async function (response) {
+          // Step 3: Save the donation record on successful payment
+          console.log(user._id);
+          
+          await axios.post("http://localhost:5000/save-donation", {
+            orderId: orderId,
+            user: {
+              id: user._id,
+              name: user.name,
+              email: user.email,
+              phone: user.phone
+            },
+            donationName: donationName,
+            donationAmount: donationAmount
+          });
+          toast.success(`Donation successful! Payment ID: ${response.razorpay_payment_id}`);
         },
         prefill: {
-          name: "Donor",
-          email: "donor@gmail.com",
-          contact: "9041175563",
+          name: user.name,
+          email: user.email,
+          contact: user.phone,
         },
         theme: {
-          color: "#F37254"
+          color: "#fb923c"
         }
       };
-
+  
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error) {
       console.error("Error in payment:", error.message);
     }
   };
-
+  
   return (
     <div className="bg-orange-100 p-4 rounded-lg">
       <div className="flex items-center cursor-pointer" onClick={() => setIsOpen(!isOpen)}>

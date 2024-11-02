@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import the CSS
+import "react-toastify/dist/ReactToastify.css";
 import Volunteer from "../assets/volunteer.jpg";
 
 const BecomeVolunteer = () => {
@@ -12,8 +12,8 @@ const BecomeVolunteer = () => {
         qualification: '',
         field: ''
     });
+    const [loading, setLoading] = useState(false);
 
-    // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -22,9 +22,9 @@ const BecomeVolunteer = () => {
         });
     };
 
-    // Handle form submission
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
+        setLoading(true);
         try {
             const response = await fetch('http://localhost:5000/submitVolunteer', {
                 method: 'POST',
@@ -37,8 +37,7 @@ const BecomeVolunteer = () => {
             const data = await response.json();
 
             if (response.ok) {
-                toast.success('Thank you for volunteering!'); // Success toast
-                // Clear form data
+                toast.success('Thank you for volunteering! You will be notified via email');
                 setFormData({
                     name: '',
                     email: '',
@@ -51,13 +50,22 @@ const BecomeVolunteer = () => {
                 throw new Error(data.error || 'Something went wrong');
             }
         } catch (error) {
-            toast.error(error.message); // Error toast
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="bg-gray-50 min-h-screen flex items-center justify-center relative">
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+            
+            {loading && (
+                <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="loader w-16 h-16 border-t-4 border-white rounded-full animate-spin"></div>
+                </div>
+            )}
+
             <main className="py-12 px-4 lg:px-0">
                 <section className="min-w-xl lg:px-[100px] mx-auto flex flex-col lg:flex-row-reverse items-center gap-10">
                     <div className="lg:w-1/2 h-full">

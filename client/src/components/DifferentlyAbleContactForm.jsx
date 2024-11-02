@@ -15,6 +15,7 @@ const DifferentlyAbleContactForm = () => {
         services: '',
         disability_certificate_img: null,
     });
+    const [loading, setLoading] = useState(false); // Add loading state
 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
@@ -26,6 +27,7 @@ const DifferentlyAbleContactForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true); // Set loading to true when form submission starts
 
         const form = new FormData();
         for (const key in formData) {
@@ -42,7 +44,6 @@ const DifferentlyAbleContactForm = () => {
                 throw new Error('Network response was not ok');
             }
 
-            // Show success toast
             toast.success('Form submitted successfully!');
             setFormData({
                 name: '',
@@ -57,14 +58,23 @@ const DifferentlyAbleContactForm = () => {
                 disability_certificate_img: null,
             });
         } catch (error) {
-            // Show error toast
             toast.error('Error submitting the form. Please try again.');
+        } finally {
+            setLoading(false); // Stop the loader after the form submission is completed
         }
     };
 
     return (
         <main className="flex flex-col">
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+
+            {/* Show the loader if loading is true */}
+            {loading &&
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="loader border-t-4 border-[#ffa85a] rounded-full w-16 h-16 animate-spin"></div>
+                </div>
+            }
+
             <section className="relative h-screen flex items-center justify-center">
                 <img
                     src={DisabledPeople}

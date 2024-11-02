@@ -34,11 +34,18 @@ const Login = () => {
                 toast.success('Login successful!');
                 const userData = response.data.user;
                 localStorage.setItem('user', JSON.stringify(userData));
-                navigate('/');
+                setTimeout(()=>{
+                    
+                    navigate('/');
+                },1000)
             } else {
                 toast.error('Unexpected response from server');
             }
         } catch (error) {
+            if(error.response.status === 401) {
+                toast.error('User not available');
+            }
+            
             console.error('Error:', error.response);
             const errorMessage = error.message;
             console.log(errorMessage);
@@ -73,10 +80,7 @@ const Login = () => {
                 <button type="submit" className='mt-3 border w-1/2 self-center text-white bg-orange-300 rounded-md px-6 py-3 hover:bg-opacity-80 transition-all shadow-md'>
                     Login
                 </button>
-                <div className='flex items-center gap-2 mt-4'>
-                    <p className='text-slate-400 cursor-pointer hover:text-slate-500 transition-all'>Continue with</p>
-                    <button className='border text-white bg-red-600 rounded-3xl px-6 py-2 hover:bg-opacity-90 shadow-md transition-all'>Google</button>
-                </div>
+                
             </form>
         </div>
     );

@@ -37,7 +37,7 @@ const Events = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-8">
-                    {events.map((event) => (
+                    {events.slice().reverse().map((event) => (
                         <div
                             key={event._id}
                             className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300"

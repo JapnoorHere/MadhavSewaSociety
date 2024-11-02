@@ -8,6 +8,7 @@ const Signup = () => {
     const navigate = useNavigate();
     const nameRef = useRef(null);
     const emailRef = useRef(null);
+    const phoneRef = useRef(null);
     const passwordRef = useRef(null);
     const cPasswordRef = useRef(null);
 
@@ -19,11 +20,12 @@ const Signup = () => {
 
         const name = nameRef.current.value;
         const email = emailRef.current.value;
+        const phone = phoneRef.current.value;
         const password = passwordRef.current.value;
         const cPassword = cPasswordRef.current.value;
 
         // Basic validation
-        if (!name || !email || !password || !cPassword) {
+        if (!name || !email || !password || !cPassword || !phone) {
             toast.error('All fields are required.');
             return;
         }
@@ -40,17 +42,18 @@ const Signup = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name, email, password }),
+                body: JSON.stringify({ name, email, phone, password }),
             });
 
             const data = await response.json();
             if (response.ok) {
                 toast.success('Signup successful! You can now log in.');
-                navigate('/auth/login');
-            } else {
+                setTimeout(() => navigate('/auth/login'), 1000);
+            } else {    
                 toast.error(data.message || 'Signup failed.');
             }
         } catch (error) {
+            
             toast.error('An error occurred. Please try again.');
         }
     };
@@ -76,6 +79,11 @@ const Signup = () => {
                     <label htmlFor="email" className='font-semibold'>Email</label>
                     <input type="email" ref={emailRef} id='email' className='p-2 rounded-md border focus:outline-none focus:outline-orange-300' />
                 </div>
+                
+                <div className='flex flex-col gap-2'>
+                    <label htmlFor="phone" className='font-semibold'>Phone Number</label>
+                    <input type="tel" ref={phoneRef} id='phone' className='p-2 rounded-md border focus:outline-none focus:outline-orange-300' />
+                </div>
 
                 <div className='relative flex flex-col gap-2'>
                     <label htmlFor="password" className='font-semibold'>Password</label>
@@ -99,10 +107,7 @@ const Signup = () => {
 
                 <button className='mt-3 border w-1/2 self-center text-white bg-orange-300 rounded-md px-6 py-3 hover:bg-opacity-80 transition-all shadow-md'>Signup</button>
 
-                <div className='flex items-center gap-2'>
-                    <p className='text-slate-400 cursor-pointer hover:text-slate-500 transition-all'>Create account with</p>
-                    <button className='border text-white bg-red-600 rounded-3xl px-6 py-2 hover:bg-opacity-90 shadow-md transition-all'>Google</button>
-                </div>
+                
             </form>
         </div>
     );
