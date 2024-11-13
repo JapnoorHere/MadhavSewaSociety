@@ -25,7 +25,6 @@ const Donate = () => {
     fetchDonations();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
 
   return (
     <main>

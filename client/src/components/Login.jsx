@@ -42,8 +42,11 @@ const Login = () => {
                 toast.error('Unexpected response from server');
             }
         } catch (error) {
-            if(error.response.status === 401) {
+            if(error.response.status === 401 && error.response.data.message === 'User not available') {
                 toast.error('User not available');
+            }
+            else if(error.response.status === 401 && error.response.data.message === 'Invalid password') {
+                toast.error('Invalid password');
             }
             
             console.error('Error:', error.response);
