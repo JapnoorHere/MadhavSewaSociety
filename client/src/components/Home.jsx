@@ -190,7 +190,7 @@ const DonationsSection = () => {
     const [donations, setDonations] = useState([]);
   
     useEffect(() => {
-      fetch('http://localhost:5000/donations')
+      fetch('https://madhav-sewa-society-d2t9.vercel.app/donations')
         .then((response) => response.json())
         .then((data) => {
           // Get the most recent 4 donations
@@ -249,7 +249,7 @@ const DonationsSection = () => {
 
     useEffect(() => {
         // Fetch recent 3 events from the API
-        fetch("http://localhost:5000/events")
+        fetch("https://madhav-sewa-society-d2t9.vercel.app/events")
             .then((response) => response.json())
             .then((data) => {
                 // Assume data is an array of events; take the first 3 events

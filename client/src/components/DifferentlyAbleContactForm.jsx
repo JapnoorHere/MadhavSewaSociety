@@ -35,7 +35,7 @@ const DifferentlyAbleContactForm = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/upload-differentlyAbleContactForm', {
+            const response = await fetch('https://madhav-sewa-society-d2t9.vercel.app/upload-differentlyAbleContactForm', {
                 method: 'POST',
                 body: form,
             });

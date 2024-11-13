@@ -9,7 +9,7 @@ const Events = () => {
         // Fetch events data from the backend
         const fetchEvents = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/events'); // Adjust the URL as necessary
+                const response = await axios.get('https://madhav-sewa-society-d2t9.vercel.app/events'); // Adjust the URL as necessary
                 setEvents(response.data.events);
             } catch (error) {
                 console.error('Error fetching events data:', error);

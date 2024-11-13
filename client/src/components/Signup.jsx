@@ -37,7 +37,7 @@ const Signup = () => {
 
         // Send data to the backend
         try {
-            const response = await fetch('http://localhost:5000/signup', {
+            const response = await fetch('https://madhav-sewa-society-d2t9.vercel.app/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -14,7 +14,7 @@ const DailyMotivation = () => {
         // Fetch daily motivation data from the backend
         const fetchDailyMotivation = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/dailyMotivation'); // Adjust the URL as necessary
+                const response = await axios.get('https://madhav-sewa-society-d2t9.vercel.app/dailyMotivation'); // Adjust the URL as necessary
                 setTodayVideo(response.data.todayVideo);
                 setVideos(response.data.videos);
                 setMudras(response.data.mudras);

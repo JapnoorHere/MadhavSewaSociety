@@ -26,7 +26,7 @@ const BecomeVolunteer = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:5000/submitVolunteer', {
+            const response = await fetch('https://madhav-sewa-society-d2t9.vercel.app/submitVolunteer', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

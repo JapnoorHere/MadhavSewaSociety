@@ -13,7 +13,7 @@ const Donate = () => {
   useEffect(() => {
     const fetchDonations = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/donations');
+        const response = await axios.get('https://madhav-sewa-society-d2t9.vercel.app/donations');
         setDonations(response.data);
       } catch (error) {
         console.error('Error fetching donations:', error);
@@ -85,7 +85,7 @@ const Accordion = ({ donationName, donationDescription, donationImageUrl, donati
   const handleDonate = async () => {
     try {
       // Step 1: Create order on backend
-      const response = await axios.post("http://localhost:5000/create-order", {
+      const response = await axios.post("https://madhav-sewa-society-d2t9.vercel.app/create-order", {
         amount: donationAmount
       });
       const { orderId, amount } = response.data;
@@ -102,7 +102,7 @@ const Accordion = ({ donationName, donationDescription, donationImageUrl, donati
           // Step 3: Save the donation record on successful payment
           console.log(user._id);
           
-          await axios.post("http://localhost:5000/save-donation", {
+          await axios.post("https://madhav-sewa-society-d2t9.vercel.app/save-donation", {
             orderId: orderId,
             user: {
               id: user._id,
